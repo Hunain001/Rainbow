@@ -1,0 +1,39 @@
+﻿@model List<Rainbow.Models.Cake>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cake Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CakeName</td>
+                <td>@item.Description</td>
+                <td>@item.Price</td>
+                <td>@item.Categoury.Name</td> 
+                <td>
+                    @if (!string.IsNullOrEmpty(item.image))
+                    {
+                        <img src="@item.image" width="100" height="100" />
+                    }
+                    else
+                    {
+                        <span>No image</span>
+                    }
+                </td>
+                <td>
+                      @Html.ActionLink("Delete","Delete","Home",new {Id=item.CId}) ||
+                      @Html.ActionLink("Edit","Edit","Home",new {Id=item.CId})
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

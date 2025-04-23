@@ -1,0 +1,37 @@
+﻿@model Rainbow.Models.Cake
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @using (Html.BeginForm("cake", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+  
+        @Html.LabelFor(a => a.CakeName)
+        @Html.TextBoxFor(a => a.CakeName)
+
+        @Html.LabelFor(model => model.id, "Category")
+        @Html.DropDownListFor(x => x.id, ViewBag.categories as SelectList, "Select a Category")
+
+        @Html.LabelFor(a => a.Description)
+        @Html.TextBoxFor(a => a.Description)
+
+        @Html.LabelFor(a => a.Price)
+        @Html.TextBoxFor(a => a.Price)
+
+        <label>Upload Image</label>
+        <input type="file" name="imageFile" />
+
+        <div class="form-group">
+            <label>Is Special?</label><br />
+
+            @Html.RadioButtonFor(model => model.isspecial, "Yes") <span>Yes</span><br />
+            @Html.RadioButtonFor(model => model.isspecial, "No") <span>No</span>
+        </div>
+
+        <input type="submit" value="Add" />
+
+        <br />
+    }
+
+
+}

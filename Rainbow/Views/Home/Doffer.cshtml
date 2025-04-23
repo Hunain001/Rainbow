@@ -1,0 +1,22 @@
+﻿@model List<Rainbow.Models.Offer>
+
+<table>
+    <thead>
+        <th>Description</th>
+        <th>Discount Price</th>
+        <th>VAlid till</th>
+    </thead>
+
+    @foreach(var a in Model)
+    {
+        <tr>
+            <td>@a.Description</td>
+            <td>@a.Discountprice</td>
+            <td>@a.Validtill</td>
+            <td>
+                @Html.ActionLink("Delete", "Deleteo", "Home", new { id = a.Id }, null)
+            </td>
+
+        </tr>
+    }
+</table>

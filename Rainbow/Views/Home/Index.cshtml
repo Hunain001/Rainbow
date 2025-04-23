@@ -1,0 +1,588 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Rainbow Bakers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-pink: #ffebee;
+            --secondary-pink: #fce4ec;
+            --accent-pink: #f8bbd0;
+            --dark-pink: #f48fb1;
+            --text-color: #5d4037;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: var(--primary-pink);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 24px;
+            color: #d81b60 !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            animation: pulse 2s infinite;
+        }
+
+        .carousel img {
+            height: 500px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(216,27,96,0.2);
+        }
+
+        .nav-link {
+            font-size: 18px;
+            color: #d81b60 !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+            .nav-link:hover {
+                transform: translateY(-3px);
+            }
+
+            .nav-link:after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: #d81b60;
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover:after {
+                width: 100%;
+            }
+
+        @@keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(216,27,96,0.1);
+            transition: all 0.3s ease;
+            background-color: white;
+            animation: float 4s ease-in-out infinite;
+        }
+
+            .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 30px rgba(216,27,96,0.2);
+            }
+
+        .card-img-top {
+            transition: all 0.5s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #ffcdd2;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 2s linear forwards;
+        }
+
+        @@keyframes sparkle {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        .banner-heading {
+            position: relative;
+            display: inline-block;
+        }
+
+            .banner-heading:after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 3px;
+                bottom: -5px;
+                left: 0;
+                background: linear-gradient(90deg, transparent, #d81b60, transparent);
+                animation: underline 3s infinite;
+            }
+
+        @@keyframes underline {
+            0% {
+                transform: scaleX(0);
+            }
+
+            50% {
+                transform: scaleX(1);
+            }
+
+            100% {
+                transform: scaleX(0);
+            }
+        }
+
+        .banner-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+            .banner-btn:after {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -60%;
+                width: 200%;
+                height: 200%;
+                background: rgba(255,255,255,0.2);
+                transform: rotate(30deg);
+                transition: all 0.3s;
+            }
+
+            .banner-btn:hover:after {
+                left: 100%;
+            }
+
+        @@keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .text-danger {
+            animation: pulse 1.5s infinite;
+            text-shadow: 0 0 10px rgba(216,27,96,0.3);
+        }
+
+        footer a {
+            position: relative;
+            transition: all 0.3s;
+        }
+
+            footer a:hover {
+                padding-left: 10px;
+            }
+
+        @@media (max-width: 768px) {
+            .carousel img {
+                height: 300px;
+            }
+
+            .banner-heading {
+                font-size: 2rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-pink);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--dark-pink);
+            border-radius: 10px;
+        }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: #d81b60;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Sparkle effect script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.body.addEventListener('click', function (e) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 2000);
+            });
+        });
+        @{
+            ViewData["Title"] = "Home Page";
+            Layout = null;
+
+            var specials = ViewBag.SpecialCakes as List<Rainbow.Models.Cake>;
+            var offer = ViewBag.Offer as Rainbow.Models.Offer;
+            var offerCakes = ViewBag.OfferCakes as List<Rainbow.Models.Cake>;
+        }
+        @{
+            var featuredCake = ViewBag.FeaturedCake as Rainbow.Models.Cake;
+        }
+    </script>
+
+    @Html.ActionLink("Login", "Alogin", "Home")
+
+    <!-- 🌈 Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Rainbow Bakers</a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Search</a></li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Gallery", "Gallery", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Why Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="banner-section animate__animated animate__fadeIn">
+        <div class="banner-content text-center">
+            <h1 class="banner-heading">🎂 Celebrate Every Occasion with a Perfect Cake!</h1>
+            <p class="banner-subtext">From birthdays to weddings – made fresh, 100% pure veg, and baked live just for you!</p>
+            <a href="@Url.Action("Gallery", "Home")" class="banner-btn btn btn-lg btn-warning animate__animated animate__pulse animate__infinite">Explore Cakes</a>
+        </div>
+    </div>
+
+
+    <!-- 🎂 Carousel -->
+    <div id="cakeCarousel" class="carousel slide animate__animated animate__fadeInUp" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active"><img src= class="d-block w-100" alt="Cake 1"></div>
+            <div class="carousel-item"><img src= class="d-block w-100" alt="Cake 2"></div>
+            <div class="carousel-item"><img src= class="d-block w-100" alt="Cake 3"></div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#cakeCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bg-pink rounded-circle p-3"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#cakeCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-pink rounded-circle p-3"></span>
+        </button>
+    </div>
+
+    <!-- 🌟 Special Cakes Section -->
+    <h2 class="text-center mt-5 animate__animated animate__fadeIn">Our Special Cakes</h2>
+    <div class="row justify-content-center mt-4">
+        @foreach (var cake in specials)
+        {
+            <div class="card m-3 animate__animated animate__zoomIn" style="width: 18rem;">
+                <img src="@cake.image" class="card-img-top" alt="Cake Image" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@cake.CakeName</h5>
+                    <p class="card-text"><strong>Price:</strong> ₹@cake.Price</p>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- 💥 Offer Section -->
+    <!-- 💥 Offer Section -->
+    @if (offer != null)
+    {
+        <div class="mt-5 p-4 bg-white border rounded shadow animate__animated animate__fadeInUp">
+            <h2 class="text-center text-danger">🎉 Special Offer 🎉</h2>
+            <h4 class="text-center">@offer.Description</h4>
+            <p class="text-center">Discount Price: ₹@offer.Discountprice</p>
+
+            <!-- Countdown Timer -->
+            <div class="text-center mb-3">
+                <span id="countdown" class="fs-4 text-primary"></span>
+            </div>
+
+            <!-- Offer Cakes -->
+            <div class="row justify-content-center">
+                @foreach (var cake in offerCakes)
+                {
+                    <div class="col-md-3">
+                        <img src="@cake.image" class="img-fluid rounded mb-3 shadow animate__animated animate__zoomIn" />
+                    </div>
+                }
+            </div>
+        </div>
+
+        <script>
+
+                    const targetDate = new Date('@offer.Validtill.ToString("yyyy-MM-ddTHH:mm:ss")');
+            const countdown = document.getElementById("countdown");
+
+            function updateCountdown() {
+                const now = new Date();
+                const diff = targetDate - now;
+
+                if (diff <= 0) {
+                    countdown.innerText = "Offer expired";
+                    return;
+                }
+
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                // Update the countdown text with correct string interpolation
+                countdown.innerText = `${hours}h ${minutes}m ${seconds}s left`;
+            }
+
+            // Update countdown every second
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        </script>
+    }
+
+
+
+
+
+
+    <section class="py-5 animate__animated animate__fadeIn" style="background-color: #fef7f1;">
+        <div class="container text-center">
+            <h2 style="font-weight: bold;">What Makes Us Special?</h2>
+            <p class="mb-4" style="font-size: 18px;">Discover why cake lovers choose us over others!</p>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="p-4 shadow rounded animate__animated animate__fadeInLeft" style="background-color: white;">
+                        <img src="/images/live-kitchen-icon.png" alt="Live Kitchen" width="60" />
+                        <h4 class="mt-3">Live Kitchen Experience</h4>
+                        <p>Watch your cakes being baked fresh right in front of you. No pre-packed, only fresh!</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="p-4 shadow rounded animate__animated animate__fadeInRight" style="background-color: white;">
+                        @if (ViewBag.FeaturedCake != null)
+                        {
+                            <img src="@ViewBag.FeaturedCake.image" alt="@ViewBag.FeaturedCake.CakeName" class="img-fluid rounded shadow" style="max-height: 150px;" />
+                        }
+                        <h4 class="mt-3">100% Pure Veg Cakes</h4>
+                        <p>We believe in purity — all our cakes are made without egg or non-veg products.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <h2 class="mt-5 text-center animate__animated animate__fadeIn">📍 Visit Our Store</h2>
+    <p class="text-center animate__animated animate__fadeIn">We are located at a prime spot – come enjoy our pure veg cakes with a live kitchen experience!</p>
+
+    <!-- Map Section -->
+    <div class="map-responsive-full animate__animated animate__fadeInUp">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d242457.55067429377!2d76.991736378125!3d18.283342112706688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcfab00199aae39%3A0x656ff849053ef336!2zUmFpbmJvdyBiYWtlcnMg4KSw4KWH4KSo4KSs4KWLIOCkrOClheCkleCksOCljeCkuA!5e0!3m2!1sen!2sin!4v1744192410061!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+
+    <style>
+        .map-responsive-full {
+            width: 100%;
+            height: 300px; /* Controls how tall the map appears */
+            position: relative;
+        }
+
+            .map-responsive-full iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+            }
+    </style>
+    <footer style="background-color: #343a40; color: white; padding: 40px 0;" class="animate__animated animate__fadeInUp">
+        <div class="container">
+            <div class="row">
+
+                <!-- Contact Info -->
+                <div class="col-md-4 mb-3">
+                    <h5>Contact Us</h5>
+                    <p>📞 Phone: <a href="tel:+919876543210" style="color: #f8f9fa;">+91 9035319198</a></p>
+                    <p>📞 Phone: <a href="tel:+919876543210" style="color: #f8f9fa;">+91 9049194240</a></p>
+                    <p>📧 Email: <a href="mailto:info@rainbowcakes.in" style="color: #f8f9fa;">info@rainbowcakes.in</a></p>
+                </div>
+
+                <!-- Address -->
+                <div class="col-md-4 mb-3">
+                    <h5>Visit Us</h5>
+                    <p>🏠 Rainbow Bakers & Cakes</p>
+                    <p>123, Cake Street, Main Chowk,</p>
+                    <p>Jalna, Maharashtra – 431203</p>
+                </div>
+
+                <!-- Working Hours & Social -->
+                <div class="col-md-4 mb-3">
+                    <h5>Working Hours</h5>
+                    <p>🕒 Mon - Sun: 9:00 AM to 9:00 PM</p>
+
+                    <h5 class="mt-3">Follow Us</h5>
+                    <a href="#" style="color: white; margin-right: 10px;"><i class="fab fa-facebook-f"></i> Facebook</a><br />
+                    <a href="#" style="color: white; margin-right: 10px;"><i class="fab fa-instagram"></i> Instagram</a><br />
+                    <a href="#" style="color: white;"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                </div>
+
+            </div>
+            <hr style="border-color: #777;" />
+            <p class="text-center mb-0">© 2025 Rainbow Bakers. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 40px 0;
+            font-family: Arial, sans-serif;
+        }
+
+            footer h5 {
+                font-size: 18px;
+                margin-bottom: 15px;
+                font-weight: bold;
+            }
+
+            footer p {
+                margin: 5px 0;
+                color: #f8f9fa;
+                font-size: 14px;
+            }
+
+            footer a {
+                color: #f8f9fa;
+                text-decoration: none;
+                font-size: 14px;
+            }
+
+                footer a:hover {
+                    color: #ffc107;
+                    text-decoration: underline;
+                }
+
+            footer hr {
+                border-top: 1px solid #777;
+                margin-top: 20px;
+            }
+
+            footer .fab {
+                margin-right: 8px;
+            }
+
+        @@media (max-width: 768px) {
+            footer {
+                text-align: center;
+            }
+
+                footer .col-md-4 {
+                    margin-bottom: 20px;
+                }
+        }
+
+    </style>
+
+    <style>
+        .banner-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/banner-cake.jpg') center/cover no-repeat;
+            color: white;
+            padding: 100px 20px;
+            border-radius: 10px;
+            margin: 40px auto;
+            max-width: 1200px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .banner-heading {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .banner-subtext {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .banner-btn {
+            background-color: #ffc107;
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+            .banner-btn:hover {
+                background-color: #e0a800;
+                color: #fff;
+            }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

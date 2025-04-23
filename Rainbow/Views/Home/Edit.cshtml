@@ -1,0 +1,48 @@
+﻿@model Rainbow.Models.Cake
+
+@{
+    ViewBag.Title = "Edit Cake";
+}
+
+<h2>Edit Cake</h2>
+
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.CId) <!-- Hidden field for primary key -->
+
+    <div>
+        @Html.LabelFor(a => a.CakeName)
+        @Html.TextBoxFor(a => a.CakeName, new { @class = "form-control" })
+    </div>
+
+    <div>
+        @Html.LabelFor(a => a.Description)
+        @Html.TextBoxFor(a => a.Description, new { @class = "form-control" })
+    </div>
+
+    <div>
+        @Html.LabelFor(a => a.Price)
+        @Html.TextBoxFor(a => a.Price, new { @class = "form-control" })
+    </div>
+
+    <div>
+        @Html.LabelFor(model => model.id, "Category")
+        @Html.DropDownListFor(a => a.id, ViewBag.categories as SelectList, "Select Category", new { @class = "form-control" })
+    </div>
+
+    <div>
+        <label>Upload New Image (optional)</label><br />
+        <input type="file" name="imageFile" />
+
+        @if (!string.IsNullOrEmpty(Model.image))
+        {
+            <div style="margin-top:10px;">
+                <label>Current Image:</label><br />
+                <img src="@Model.image" width="120" height="120" />
+            </div>
+        }
+    </div>
+
+    <br />
+    <input type="submit" value="Update" class="btn btn-primary" />
+}

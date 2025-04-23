@@ -1,0 +1,71 @@
+﻿@model Rainbow.Models.Cake
+
+@{
+    ViewBag.Title = "Cake Details";
+    double basePrice = Convert.ToDouble(Model.Price);
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.image" class="img-fluid rounded shadow" alt="@Model.CakeName" />
+        </div>
+
+        <div class="col-md-6">
+            <h2>@Model.CakeName</h2>
+
+            <!-- Price based on selection -->
+            <h4 class="text-success">
+                Price: ₹<span id="displayPrice">@basePrice</span>
+            </h4>
+
+            <label for="weightSelect"><strong>Select Weight:</strong></label>
+            <select id="weightSelect" class="form-control" style="width: 150px;" onchange="updatePrice()">
+                <option value="0.5">0.5 KG</option>
+                <option value="1">1 KG</option>
+                <option value="2">2 KG</option>
+            </select>
+
+            <p><strong>Category:</strong> @Model.Categoury?.Name</p>
+            <p>@Model.Description</p>
+
+            <div class="alert alert-info mt-3">
+                🎉 Get your cake ready in just 1 hour!
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <h3>Reviews:</h3>
+    @foreach (var review in ViewBag.Reviews)
+    {
+        <div class="review">
+            <strong>@review.ReviewerName</strong> - Rating: @review.Rating
+            <p>@review.ReviewText</p>
+        </div>
+    }
+
+    <h3>Submit a Review:</h3>
+    <form method="post" action="@Url.Action("SubmitReview", "Home")">
+        <input type="hidden" name="cakeId" value="@Model.CId" />
+        <input type="text" name="userName" placeholder="Your Name" required />
+        <textarea name="comments" placeholder="Your Comments" required></textarea>
+        <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" required />
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        const basePrice = @basePrice; // basePrice is 0.5 KG price from DB
+
+        function updatePrice() {
+            let weight = parseFloat(document.getElementById("weightSelect").value);
+            let multiplier = weight / 0.5; // since base is for 0.5kg
+            let total = basePrice * multiplier;
+            document.getElementById("displayPrice").innerText = total.toFixed(2);
+        }
+    </script>
+}
+
