@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.x EntityFrameworkCore;
 using Rainbow.Models;
 using System.Diagnostics;
 
@@ -31,7 +31,7 @@ namespace Rainbow.Controllers
 
 
 
-            return View(); // ❗Don't pass specials as model
+            return View();
         }
 
 
