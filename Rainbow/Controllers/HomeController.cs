@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.x EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Rainbow.Models;
 using System.Diagnostics;
 
@@ -165,11 +165,10 @@ namespace Rainbow.Controllers
             if (cc == null)
                 return NotFound();
 
-            // ✅ Check if category is valid
             if (!r1.categories.Any(x => x.Id == c.id))
             {
                 ModelState.AddModelError("id", "Invalid category selected.");
-                return View(c); // return back to form
+                return View(c);
             }
 
             if (imageFile != null && imageFile.Length > 0)

@@ -1,4 +1,9 @@
-﻿
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -233,6 +238,31 @@
             ::-webkit-scrollbar-thumb:hover {
                 background: #d81b60;
             }
+
+
+        .btn-cake-glow {
+            background-color: #d81b60;
+            color: white !important;
+            font-weight: bold;
+            border-radius: 30px;
+            padding: 10px 25px;
+            font-size: 18px;
+            box-shadow: 0 0 12px rgba(216, 27, 96, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+
+            .btn-cake-glow:hover {
+                background-color: #c2185b;
+                color: #fff !important;
+                box-shadow: 0 0 20px rgba(216, 27, 96, 0.6);
+                transform: scale(1.05);
+            }
+
     </style>
 </head>
 <body>
@@ -265,7 +295,10 @@
         }
     </script>
 
-    @Html.ActionLink("Login", "Alogin", "Home")
+    <a href="@Url.Action("Alogin", "Home")" class="btn btn-cake-glow btn-lg">
+        <i class="fas fa-user-shield me-2"></i> Admin Login
+    </a>
+
 
     <!-- 🌈 Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -297,9 +330,9 @@
     <!-- 🎂 Carousel -->
     <div id="cakeCarousel" class="carousel slide animate__animated animate__fadeInUp" data-bs-ride="carousel">
         <div class="carousel-inner">
-            <div class="carousel-item active"><img src= class="d-block w-100" alt="Cake 1"></div>
-            <div class="carousel-item"><img src= class="d-block w-100" alt="Cake 2"></div>
-            <div class="carousel-item"><img src= class="d-block w-100" alt="Cake 3"></div>
+            <div class="carousel-item active"><img src="~/image/cake0111.png" class="d-block w-100" alt="Cake 1"></div>
+            <div class="carousel-item"><img src="~/image/frd_cake_cut.png" class="d-block w-100" alt="Cake 2"></div>
+            <div class="carousel-item"><img src="" class="d-block w-100" alt="Cake 3"></div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#cakeCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon bg-pink rounded-circle p-3"></span>
@@ -314,13 +347,13 @@
     <div class="row justify-content-center mt-4">
         @foreach (var cake in specials)
         {
-            <div class="card m-3 animate__animated animate__zoomIn" style="width: 18rem;">
-                <img src="@cake.image" class="card-img-top" alt="Cake Image" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">@cake.CakeName</h5>
-                    <p class="card-text"><strong>Price:</strong> ₹@cake.Price</p>
+                <div class="card m-3 animate__animated animate__zoomIn" style="width: 18rem;">
+                    <img src="@cake.image" class="card-img-top" alt="Cake Image" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">@cake.CakeName</h5>
+                        <p class="card-text"><strong>Price:</strong> ₹@cake.Price</p>
+                    </div>
                 </div>
-            </div>
         }
     </div>
 
@@ -328,53 +361,53 @@
     <!-- 💥 Offer Section -->
     @if (offer != null)
     {
-        <div class="mt-5 p-4 bg-white border rounded shadow animate__animated animate__fadeInUp">
-            <h2 class="text-center text-danger">🎉 Special Offer 🎉</h2>
-            <h4 class="text-center">@offer.Description</h4>
-            <p class="text-center">Discount Price: ₹@offer.Discountprice</p>
+            <div class="mt-5 p-4 bg-white border rounded shadow animate__animated animate__fadeInUp">
+                <h2 class="text-center text-danger">🎉 Special Offer 🎉</h2>
+                <h4 class="text-center">@offer.Description</h4>
+                <p class="text-center">Discount Price: ₹@offer.Discountprice</p>
 
-            <!-- Countdown Timer -->
-            <div class="text-center mb-3">
-                <span id="countdown" class="fs-4 text-primary"></span>
-            </div>
+                <!-- Countdown Timer -->
+                <div class="text-center mb-3">
+                    <span id="countdown" class="fs-4 text-primary"></span>
+                </div>
 
-            <!-- Offer Cakes -->
-            <div class="row justify-content-center">
+                <!-- Offer Cakes -->
+                <div class="row justify-content-center">
                 @foreach (var cake in offerCakes)
                 {
-                    <div class="col-md-3">
-                        <img src="@cake.image" class="img-fluid rounded mb-3 shadow animate__animated animate__zoomIn" />
-                    </div>
+                            <div class="col-md-3">
+                                <img src="@cake.image" class="img-fluid rounded mb-3 shadow animate__animated animate__zoomIn" />
+                            </div>
                 }
+                </div>
             </div>
-        </div>
 
-        <script>
+            <script>
 
-                    const targetDate = new Date('@offer.Validtill.ToString("yyyy-MM-ddTHH:mm:ss")');
-            const countdown = document.getElementById("countdown");
+                        const targetDate = new Date('@offer.Validtill.ToString("yyyy-MM-ddTHH:mm:ss")');
+                const countdown = document.getElementById("countdown");
 
-            function updateCountdown() {
-                const now = new Date();
-                const diff = targetDate - now;
+                function updateCountdown() {
+                    const now = new Date();
+                    const diff = targetDate - now;
 
-                if (diff <= 0) {
-                    countdown.innerText = "Offer expired";
-                    return;
+                    if (diff <= 0) {
+                        countdown.innerText = "Offer expired";
+                        return;
+                    }
+
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    // Update the countdown text with correct string interpolation
+                    countdown.innerText = `${hours}h ${minutes}m ${seconds}s left`;
                 }
 
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                // Update the countdown text with correct string interpolation
-                countdown.innerText = `${hours}h ${minutes}m ${seconds}s left`;
-            }
-
-            // Update countdown every second
-            setInterval(updateCountdown, 1000);
-            updateCountdown();
-        </script>
+                // Update countdown every second
+                setInterval(updateCountdown, 1000);
+                updateCountdown();
+            </script>
     }
 
 
@@ -400,7 +433,7 @@
                     <div class="p-4 shadow rounded animate__animated animate__fadeInRight" style="background-color: white;">
                         @if (ViewBag.FeaturedCake != null)
                         {
-                            <img src="@ViewBag.FeaturedCake.image" alt="@ViewBag.FeaturedCake.CakeName" class="img-fluid rounded shadow" style="max-height: 150px;" />
+                                <img src="@ViewBag.FeaturedCake.image" alt="@ViewBag.FeaturedCake.CakeName" class="img-fluid rounded shadow" style="max-height: 150px;" />
                         }
                         <h4 class="mt-3">100% Pure Veg Cakes</h4>
                         <p>We believe in purity — all our cakes are made without egg or non-veg products.</p>
